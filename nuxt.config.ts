@@ -6,7 +6,8 @@ export default defineNuxtConfig({
   },
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
-  modules: ['@pinia/nuxt', '@nuxtjs/tailwindcss', '@nuxt/eslint', '@nuxthub/core'],
+  css: ['~/assets/css/main.css'],
+  modules: ['@pinia/nuxt', '@nuxt/eslint', '@nuxthub/core', '@nuxt/ui'],
   typescript: {
     typeCheck: true,
   },
