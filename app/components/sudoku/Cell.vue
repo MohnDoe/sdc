@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const {
-  cell, index, isSelected, isSameNumber, isRelated
+  cell, isSelected, isSameNumber, isRelated
 } = defineProps<{
   cell: Cell
   index: number

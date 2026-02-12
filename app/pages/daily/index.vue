@@ -13,6 +13,6 @@ watchEffect(() => {
 </script>
 <template>
   <div>
-    <SudokuBoard :handleNumInsertion="() => { }" />
+    <SudokuBoard />
   </div>
 </template>

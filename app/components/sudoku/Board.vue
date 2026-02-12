@@ -1,14 +1,8 @@
 <script setup lang="ts">
 import "~/assets/css/sudoku.css";
 
-const {
-  handleNumInsertion
-} = defineProps<{
-  handleNumInsertion: (num: number) => void
-}>()
-
-const gameStore = useGameStore();
-const { grid, selectedIndex } = storeToRefs(gameStore);
+const { toggleNotesMode, selectCell, unselectCell, insertNumber, clearCell } = useGameStore();
+const { grid, selectedIndex } = storeToRefs(useGameStore());
 
 const selectedCell = selectedIndex.value !== null ? grid.value[selectedIndex.value] : null;
 const selectedCellValue = selectedCell?.value ?? null;
@@ -38,6 +32,66 @@ const isCellSameNumber = (cell: Cell) => {
     cell.value !== null &&
     cell.value === selectedCellValue
 }
+
+const relativeMove = (arrow: string) => {
+  if (selectedIndex.value == null) return;
+  const row = Math.floor(selectedIndex.value / 9);
+  const col = selectedIndex.value % 9;
+
+  let newRow = row;
+  let newCol = col;
+
+  switch (arrow) {
+    case "ArrowUp":
+      newRow = (row + 9 - 1) % 9;
+      break;
+    case "ArrowDown":
+      newRow = (row + 1) % 9;
+      break;
+    case "ArrowLeft":
+      newCol = (col + 9 - 1) % 9;
+      break;
+    case "ArrowRight":
+      newCol = (col + 1) % 9;
+      break;
+  }
+
+  selectCell(newRow * 9 + newCol);
+}
+
+const onKeyDown = (e: KeyboardEvent) => {
+  console.log(`Key pressed on ${selectedIndex} : ${e.key}`)
+
+  if (e.key === 'e') {
+    toggleNotesMode();
+    return;
+  }
+
+  if (selectedIndex.value == null) return;
+
+  if (e.key === 'Escape') {
+    unselectCell();
+    return;
+  }
+
+  if (["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(e.key)) {
+    e.preventDefault();
+    relativeMove(e.key);
+    return;
+  }
+
+  if (/[1-9]/.test(e.key)) {
+    const num = parseInt(e.key);
+    insertNumber(num);
+    return;
+  }
+
+  if (e.key === "Basckpace" || e.key === "Delete") {
+    clearCell(selectedIndex.value)
+  }
+
+}
+
 </script>
 <template>
   <div className="sudoku-board w-full p-1">
@@ -46,11 +100,10 @@ const isCellSameNumber = (cell: Cell) => {
         w-full aspect-square
         grid grid-cols-9 grid-rows-9
         gap-0
-        " tabIndex="0">
+        " tabIndex="0" @keydown.prevent="onKeyDown">
       <SudokuCell v-for="(cell, index) in grid" :index="index" :cell="cell" :key="index"
         :isSelected="selectedIndex == index" :isRelated="isCellRelated(index, selectedIndex)"
-        :isSameNumber="isCellSameNumber(cell)" :selectedCellValue="selectedCellValue"
-        @click="gameStore.selectCell(index)" />
+        :isSameNumber="isCellSameNumber(cell)" :selectedCellValue="selectedCellValue" @click="selectCell(index)" />
     </div>
   </div>
 </template>

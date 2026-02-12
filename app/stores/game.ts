@@ -1,5 +1,6 @@
 import type { SudokuDifficulty, Cell } from '#shared/types/sudoku';
 import { GRID_SIZE, parsePuzzle, TOTAL_CELLS } from "#shared/utils/sudoku"
+import { numeric } from 'drizzle-orm/pg-core';
 
 interface GameState {
   puzzle: string | null,
@@ -24,6 +25,16 @@ interface GameState {
   isPaused: boolean
 }
 
+function removeNote(notes: number[], note: number) {
+  return notes.filter(n => n !== note);
+}
+
+function addNote(notes: number[], noteToAdd: number): number[] {
+  if (notes.includes(noteToAdd)) {
+    return notes; // Already included, return original
+  }
+  return [...notes, noteToAdd];
+}
 
 export const useGameStore = defineStore('gameStore', {
   state: (): GameState => {
@@ -63,6 +74,63 @@ export const useGameStore = defineStore('gameStore', {
     selectCell(index: number) {
       console.log("selectcell", index)
       this.selectedIndex = Math.min(TOTAL_CELLS - 1, Math.max(0, index))
+    },
+    unselectCell() {
+      this.selectedIndex = null;
+    },
+    toggleNotesMode() {
+      this.notesMode = !this.notesMode
+    },
+    toggleNode(index: number, note: number) {
+      if (index < 0 || index >= TOTAL_CELLS) return;
+      if (this.grid[index]!.given) return;
+      // if (this.grid[index]!.value !== null) return;
+      let notes = this.grid[index]!.notes;
+
+      if (notes.includes(note)) {
+        notes = removeNote(notes, note)
+      } else {
+        notes = addNote(notes, note)
+      }
+
+      this.grid[index]!.notes = notes;
+    },
+    insertNumber(num: number) {
+      if (this.selectedIndex === null) return;
+      const cell = this.grid[this.selectedIndex];
+      if (!cell) return;
+      if (cell.given) return;
+
+      if (this.notesMode) {
+        this.toggleNode(this.selectedIndex, num);
+      } else {
+        this.setCellValue(this.selectedIndex, num);
+      }
+    },
+    setCellValue(index: number, value: number | null) {
+      if (index < 0 || index >= TOTAL_CELLS) return;
+      if (this.grid[index]!.given) return;
+
+
+      const newCell: Cell = {
+        ...this.grid[index]!,
+        notes: [],
+        value,
+        conflicts: [],
+        error: false
+      }
+
+
+      this.grid[index] = newCell;
+
+      if (value !== null) {
+        //TODO: clear notes on rows and such
+      }
+
+      // TODO: update conflicts
+    },
+    clearCell(index: number) {
+      this.setCellValue(index, null)
     }
   }
 });
