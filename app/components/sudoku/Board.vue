@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import "~/assets/css/sudoku.css";
 
-const { toggleNotesMode, selectCell, unselectCell, insertNumber, clearCell, grid } = useGameStore();
-const { selectedIndex } = storeToRefs(useGameStore())
+const { toggleNotesMode, selectCell, unselectCell, insertNumber, clearCell } = useGameStore();
+const { selectedIndex, grid } = storeToRefs(useGameStore())
 
 const relativeMove = (arrow: string) => {
   if (selectedIndex.value == null) return;
