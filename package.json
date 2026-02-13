@@ -5,6 +5,7 @@
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
+    "dev:discord": "DISCORD_ACTIVITY=1 nuxt dev --host 0.0.0.0 --port 3000",
     "ngrok": "ngrok start dev_3000",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
@@ -30,6 +31,7 @@
     "vue-router": "^4.6.4"
   },
   "devDependencies": {
+    "@iconify-json/lucide": "^1.2.90",
     "typescript": "^5.9.3",
     "vue-tsc": "^3.2.4"
   }

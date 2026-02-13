@@ -6,12 +6,12 @@ export default defineNuxtConfig({
   },
   compatibilityDate: '2025-07-15',
   devtools: {
-    enabled: true,
+    enabled: process.env.NODE_ENV === 'development' && !process.env.DISCORD_ACTIVITY,
     timeline: {
       enabled: true
     }
   },
-  css: ['~/assets/css/main.css'],
+  css: ['~/assets/css/main.css', '~/assets/css/elevated.css'],
   modules: ['@pinia/nuxt', '@nuxt/eslint', '@nuxthub/core', '@nuxt/ui'],
   typescript: {
     typeCheck: true,
@@ -29,5 +29,5 @@ export default defineNuxtConfig({
   },
   ui: {
     colorMode: false
-  }
+  },
 })

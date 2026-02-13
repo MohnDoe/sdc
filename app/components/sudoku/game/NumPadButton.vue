@@ -11,7 +11,7 @@ const done = computed(() => remainingCount.value(num) <= 0);
 </script>
 <template>
 
-  <UButton class="relative flex flex-col gap-0 cursor-pointer bg-white / elevated elevated--xs" variant="outline"
+  <UButton class="relative flex flex-col gap-0 cursor-pointer" variant="elevated" color="neutral" size="xs"
     @click="done ? null : insertNumber(num)">
     <UIcon v-if="done" name="i-lucide-check" class="stroke-green-900" />
     <span v-if="!done" class="text-xl mt-2">{{ num }}</span>
