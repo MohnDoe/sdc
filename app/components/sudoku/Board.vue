@@ -1,37 +1,8 @@
 <script setup lang="ts">
 import "~/assets/css/sudoku.css";
 
-const { toggleNotesMode, selectCell, unselectCell, insertNumber, clearCell } = useGameStore();
-const { grid, selectedIndex } = storeToRefs(useGameStore());
-
-const selectedCell = selectedIndex.value !== null ? grid.value[selectedIndex.value] : null;
-const selectedCellValue = selectedCell?.value ?? null;
-
-const isCellRelated = (
-  cellIndex: number,
-  selectedIndex: number | null,
-): boolean => {
-  if (selectedIndex === null) return false;
-
-  const row = Math.floor(cellIndex / 9);
-  const col = cellIndex % 9;
-  const sRow = Math.floor(selectedIndex / 9);
-  const sCol = selectedIndex % 9;
-
-  // Same row, column, or 3x3 box
-  return (
-    row === sRow ||
-    col === sCol ||
-    (Math.floor(row / 3) === Math.floor(sRow / 3) &&
-      Math.floor(col / 3) === Math.floor(sCol / 3))
-  );
-};
-
-const isCellSameNumber = (cell: Cell) => {
-  return selectedCellValue !== null &&
-    cell.value !== null &&
-    cell.value === selectedCellValue
-}
+const { toggleNotesMode, selectCell, unselectCell, insertNumber, clearCell, grid } = useGameStore();
+const { selectedIndex } = storeToRefs(useGameStore())
 
 const relativeMove = (arrow: string) => {
   if (selectedIndex.value == null) return;
@@ -101,9 +72,7 @@ const onKeyDown = (e: KeyboardEvent) => {
         grid grid-cols-9 grid-rows-9
         gap-0
         " tabIndex="0" @keydown.prevent="onKeyDown">
-      <SudokuCell v-for="(cell, index) in grid" :index="index" :cell="cell" :key="index"
-        :isSelected="selectedIndex == index" :isRelated="isCellRelated(index, selectedIndex)"
-        :isSameNumber="isCellSameNumber(cell)" :selectedCellValue="selectedCellValue" @click="selectCell(index)" />
+      <SudokuCell v-for="(cell, index) in grid" :index="index" :cell="cell" :key="index" @click="selectCell(index)" />
     </div>
   </div>
 </template>

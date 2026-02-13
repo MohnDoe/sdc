@@ -64,6 +64,10 @@ export const useGameStore = defineStore('gameStore', {
     }
   },
   getters: {
+    selectedCell: (state): Cell | null => {
+      if (state.selectedIndex == null) return null;
+      return state.grid.find((_, index) => index == state.selectedIndex) ?? null
+    },
     cellConflicts: (state: GameState) => {
       return (index: number) => {
         const cell = state.grid[index];

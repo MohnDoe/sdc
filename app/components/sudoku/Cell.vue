@@ -1,33 +1,47 @@
 <script setup lang="ts">
-const { grid } = useGameStore();
-const { cellConflicts } = storeToRefs(useGameStore())
-const {
-  cell, isSelected, isSameNumber, isRelated, index
-} = defineProps<{
+const { cell, index } = defineProps<{
   cell: Cell
   index: number
-  isSelected: boolean
-  isRelated: boolean
-  isSameNumber: boolean
-  selectedCellValue: number | null
 }>()
+const gameStore = useGameStore();
+const { cellConflicts, selectedIndex, selectedCell } = storeToRefs(gameStore)
 
-const hasError = ref(false);
 
-watch(grid, () => {
-  // TODO: is this good ?
-  hasError.value = cell.error || cellConflicts.value(index).length > 0
+const isSelected = computed(() => selectedIndex.value == index)
+const hasError = computed(() => cell.error || cellConflicts.value((index)).length > 0)
+
+const isRelated = computed(() => {
+  if (selectedIndex.value === null) return false;
+
+  const row = Math.floor(index / 9);
+  const col = index % 9;
+  const sRow = Math.floor(selectedIndex.value / 9);
+  const sCol = selectedIndex.value % 9;
+
+  // Same row, column, or 3x3 box
+  return (
+    row === sRow ||
+    col === sCol ||
+    (Math.floor(row / 3) === Math.floor(sRow / 3) &&
+      Math.floor(col / 3) === Math.floor(sCol / 3))
+  );
 })
 
-const cellClasses = computed(() => ({
+const isSameNumber = computed(() => {
+  return selectedCell.value?.value !== null &&
+    cell.value !== null &&
+    cell.value === selectedCell.value?.value
+})
+
+const cellClasses = reactive({
   "sudoku-cell--filled": cell.value !== null,
   "sudoku-cell--empty": cell.value === null,
   "sudoku-cell--given": cell.given,
   "sudoku-cell--related": isRelated,
   "sudoku-cell--selected": isSelected,
   "sudoku-cell--same": isSameNumber,
-  "sudoku-cell--error": hasError.value
-}))
+  "sudoku-cell--error": hasError
+})
 </script>
 
 <template>
@@ -35,7 +49,8 @@ const cellClasses = computed(() => ({
     <span v-if="cell.value !== null" :class="[cell.given ? 'font-bold' : 'font-normal']">
       {{ cell.value }}
     </span>
-    <!-- <SudokuCellNotesGrid v-else notes="cell.notes" highlight="selectedCellValue" /> -->
+    <SudokuCellNotes v-else-if="cell.notes.length" :notes="cell.notes"
+      :highlight="selectedCell ? selectedCell.value : null" />
   </div>
 </template>
 
@@ -88,8 +103,6 @@ const cellClasses = computed(() => ({
 .sudoku-cell--selected {
   background-color: var(--cell-selected-background);
 }
-
-
 
 .sudoku-cell--filled:not(.sudoku-cell--given) {
   color: var(--cell-filled-foreground);
