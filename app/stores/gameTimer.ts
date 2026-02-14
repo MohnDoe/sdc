@@ -1,6 +1,6 @@
 export const useGameTimerStore = defineStore('gameTimer', {
   state: () => ({
-    elapsedTime: 0,
+    elapsedTime: 0, // in ms
     isRunning: false,
     startTime: null as number | null,
     intervalId: null as ReturnType<typeof setInterval> | null,
@@ -28,7 +28,6 @@ export const useGameTimerStore = defineStore('gameTimer', {
       this.isRunning = true
       this.startTime = Date.now()
 
-      // Update every 10ms for smooth display
       this.intervalId = setInterval(() => {
         if (this.startTime !== null) {
           const now = Date.now()
@@ -36,7 +35,7 @@ export const useGameTimerStore = defineStore('gameTimer', {
           this.elapsedTime += delta
           this.startTime = now
         }
-      }, 1000)
+      }, 50)
     },
 
     // Pause the timer

@@ -12,8 +12,8 @@ interface GameState {
   notesMode: boolean,
 
   moves: number,
-  hints: number,
   timeSpent: number,
+  hints: number,
 
   status: "ongoing" | "completed" | "failed",
 
@@ -51,8 +51,8 @@ export const useGameStore = defineStore('gameStore', {
       puzzle: null,
       puzzleDate: null,
       puzzleId: null,
-      status: "ongoing",
       timeSpent: 0,
+      status: "ongoing",
       notesMode: false,
       selectedIndex: null,
       isSaving: false,
@@ -62,6 +62,14 @@ export const useGameStore = defineStore('gameStore', {
     }
   },
   getters: {
+    currentTimeSpentMs: (): number => {
+      const gameTimerStore = useGameTimerStore();
+      return gameTimerStore.elapsedTime
+    },
+    formattedTimeSpent: (): string => {
+      const gameTimerStore = useGameTimerStore();
+      return gameTimerStore.formattedTime
+    },
     selectedCell: (state): Cell | null => {
       if (state.selectedIndex == null) return null;
       return state.grid.find((_, index) => index == state.selectedIndex) ?? null
@@ -126,10 +134,58 @@ export const useGameStore = defineStore('gameStore', {
     }
   },
   actions: {
-    loadPuzzle({ puzzle }: { puzzle: string }) {
+    loadGame({ puzzle }: { puzzle: string }) {
       let grid = parsePuzzle(puzzle);
 
       this.grid = grid;
+      this.hints = 0
+      this.moves = 0
+      this.status = 'ongoing'
+      this.isCompleted = false
+      this.isPaused = false
+      this.selectedIndex = null
+      const gameTimerStore = useGameTimerStore();
+      gameTimerStore.reset();
+
+      // if progress
+      // this.resumeGame(progress) 
+
+
+      gameTimerStore.start();
+    },
+    // Resume a saved game
+    resumeGame(savedState: Partial<GameState>) {
+      // Restore game state
+      Object.assign(this.$state, savedState)
+      this.isPaused = false
+
+      // Load the saved time into timer and start it
+      const timerStore = useGameTimerStore()
+      timerStore.elapsedTime = (savedState.timeSpent || 0) * 1000
+      timerStore.start()
+    },
+
+    // Pause the game
+    pauseGame() {
+      this.isPaused = true
+
+      // Pause timer and sync time
+      const timerStore = useGameTimerStore()
+      timerStore.pause()
+      this.timeSpent = Math.floor(timerStore.elapsedTime / 1000)
+    },
+    // Resume the game
+    unpauseGame() {
+      this.isPaused = false
+
+      // Resume timer
+      const timerStore = useGameTimerStore()
+      timerStore.start()
+    },
+    // Sync timeSpent from timer (call periodically or before saving)
+    syncTimeFromTimer() {
+      const timerStore = useGameTimerStore()
+      this.timeSpent = Math.floor(timerStore.elapsedTime / 1000)
     },
     selectCell(index: number) {
       this.selectedIndex = Math.min(TOTAL_CELLS - 1, Math.max(0, index))

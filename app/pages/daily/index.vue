@@ -4,10 +4,14 @@ definePageMeta({
   middleware: ['authenticated']
 })
 
-const { loadPuzzle } = useGameStore();
-watchEffect(() => {
+const { loadGame: load } = useGameStore();
+
+// Load game on mount
+onMounted(async () => {
+  console.log('watchEffect')
   const dailySudoku = getSudoku('easy')
-  loadPuzzle(dailySudoku)
+  load(dailySudoku)
+
 })
 
 </script>

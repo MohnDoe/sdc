@@ -1,6 +1,5 @@
 <script setup lang="ts">
-const { difficulty } = useGameStore();
-const timerStore = useGameTimerStore();
+const gameStore = useGameStore();
 
 </script>
 <template>
@@ -8,15 +7,15 @@ const timerStore = useGameTimerStore();
     <div class="flex flex-row grow justify-between">
       <div class="flex flex-col">
         <span>Time</span>
-        <span class="text-xs">{{ timerStore.formattedTime }}</span>
+        <span class="text-xs">{{ gameStore.formattedTimeSpent }}</span>
       </div>
       <div class="flex flex-col">
         <span>Difficulty</span>
-        <span>{{ difficulty }}</span>
+        <span>{{ gameStore.difficulty }}</span>
       </div>
     </div>
-    <UButton size="lg" @click="timerStore.isRunning ? timerStore.pause() : timerStore.start()">
-      <UIcon :name="timerStore.isRunning ? 'i-lucide-pause' : 'i-lucide-play'" />
+    <UButton size="lg" @click="gameStore.isPaused ? gameStore.unpauseGame() : gameStore.pauseGame()">
+      <UIcon :name="gameStore.isPaused ? 'i-lucide-play' : 'i-lucide-pause'" />
     </UButton>
   </div>
 </template>
