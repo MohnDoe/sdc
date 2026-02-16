@@ -35,7 +35,7 @@ const isSameNumber = computed(() => {
 
 const cellClasses = reactive({
   "sudoku-cell--filled": cell.value !== null,
-  "sudoku-cell--empty": cell.value === null,
+  "sudoku-cell--empty": cell.value === null && !cell.given,
   "sudoku-cell--given": cell.given,
   "sudoku-cell--related": isRelated,
   "sudoku-cell--selected": isSelected,
@@ -45,7 +45,7 @@ const cellClasses = reactive({
 </script>
 
 <template>
-  <div class="sudoku-cell text-2xl aspect-square" :class="cellClasses" role="button" @click="$emit('cellClicked')">
+  <div class="sudoku-cell text-xl aspect-square" :class="cellClasses" role="button" @click="$emit('cellClicked')">
     <span v-if="cell.value !== null" :class="[cell.given ? 'font-bold' : 'font-normal']">
       {{ cell.value }}
     </span>
@@ -56,6 +56,7 @@ const cellClasses = reactive({
 
 <style scoped>
 .sudoku-cell {
+  border-radius: var(--cell-border-radius);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -64,6 +65,8 @@ const cellClasses = reactive({
   position: relative;
   background-color: var(--cell-background-color);
   box-sizing: border-box;
+  font-family: "Switzer", sans-serif;
+  font-variant-numeric: tabular-nums;
 }
 
 /* Thicker right border for 3x3 regions */
@@ -100,24 +103,36 @@ const cellClasses = reactive({
   background-color: var(--cell-same-background);
 }
 
-.sudoku-cell--selected {
-  background-color: var(--cell-selected-background);
-}
-
-.sudoku-cell--filled:not(.sudoku-cell--given) {
-  color: var(--cell-filled-foreground);
-  font-weight: 800;
+.sudoku-cell--error {
+  color: var(--cell-error-foreground)
 }
 
 .sudoku-cell--error::after {
   position: absolute;
   content: ' ';
   height: 4px;
+  width: 4px;
   border-radius: 4px;
-  bottom: 8px;
-  left: 8px;
-  right: 8px;
-  /* background-color: var(--color-destructive); */
-  background-color: red;
+  top: 4px;
+  right: 4px;
+  background-color: var(--ui-error);
+}
+
+.sudoku-cell--selected {
+  background-color: var(--cell-selected-background);
+}
+
+.sudoku-cell--selected.sudoku-cell--error {
+  background-color: var(--ui-error);
+  color: white;
+}
+
+.sudoku-cell--error.sudoku-cell--selected::after {
+  background-color: white;
+}
+
+.sudoku-cell--filled:not(.sudoku-cell--given) {
+  color: var(--cell-filled-foreground);
+  font-weight: 800;
 }
 </style>

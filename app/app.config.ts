@@ -12,11 +12,6 @@ export default defineAppConfig({
           variant: 'elevated',
           class: 'bg-primary'
         },
-        {
-          variant: 'elevated',
-          size: 'xs',
-          class: 'elevated--xs'
-        }
       ],
       defaultVariants: {
         variant: 'solid'

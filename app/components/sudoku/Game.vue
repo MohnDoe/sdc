@@ -4,7 +4,7 @@
       <SudokuGameInfos />
       <SudokuBoard />
     </div>
-    <div className="p-4">
+    <div className="p-2">
       <SudokuGameButtons />
     </div>
   </div>
