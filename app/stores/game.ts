@@ -253,12 +253,11 @@ export const useGameStore = defineStore('gameStore', {
       const boxRow = Math.floor(row / 3);
       const boxCol = Math.floor(col / 3);
       console.log(`Clearing all ${num} in region ${boxCol}x${boxRow}`);
-      const newGrid = [...this.grid];
       for (let r = boxRow * 3; r < boxRow * 3 + 3; r++) {
         for (let c = boxCol * 3; c < boxCol * 3 + 3; c++) {
           const i = r * GRID_SIZE + c;
           if (i === index) continue;
-          const targetCell = newGrid[i];
+          const targetCell = this.grid[i];
           if (!targetCell) continue;
 
           if (targetCell.notes.includes(num)) {
@@ -266,40 +265,33 @@ export const useGameStore = defineStore('gameStore', {
           }
         }
       }
-      this.grid = newGrid;
     },
     clearRowOfNote(row: number, num: number, index: number) {
       console.log(`Clearing all ${num} on row ${row}`)
-      const newGrid = [...this.grid];
 
       for (let c = 0; c < GRID_SIZE; c++) {
         const i = row * GRID_SIZE + c;
         if (i === index) continue;
-        const targetCell = newGrid[i];
+        const targetCell = this.grid[i];
         if (!targetCell) continue;
         if (targetCell.notes.includes(num)) {
           targetCell.notes = removeNote(targetCell.notes, num);
         }
       }
-
-      this.grid = newGrid;
     },
     clearColOfNote(col: number, num: number, index: number) {
       console.log(`Clearing all ${num} of col ${col}`);
-      const newGrid = [...this.grid];
 
       for (let r = 0; r < GRID_SIZE; r++) {
         const i = r * GRID_SIZE + col;
         if (i === index) continue;
-        const targetCell = newGrid[i];
+        const targetCell = this.grid[i];
 
         if (!targetCell) continue;
         if (targetCell.notes.includes(num)) {
           targetCell.notes = removeNote(targetCell.notes, num);
         }
       }
-
-      this.grid = newGrid;
     }
   }
 });

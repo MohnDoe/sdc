@@ -3,7 +3,7 @@ export const useGameTimerStore = defineStore('gameTimer', {
     elapsedTime: 0, // in ms
     isRunning: false,
     startTime: null as number | null,
-    intervalId: null as ReturnType<typeof setInterval> | null,
+    timeoutId: null as number | null,
   }),
 
   getters: {
@@ -21,50 +21,57 @@ export const useGameTimerStore = defineStore('gameTimer', {
   },
 
   actions: {
-    // Start or resume the timer
-    start() {
-      if (this.isRunning) return
-
-      this.isRunning = true
-      this.startTime = Date.now()
-
-      this.intervalId = setInterval(() => {
-        if (this.startTime !== null) {
-          const now = Date.now()
-          const delta = now - this.startTime
-          this.elapsedTime += delta
-          this.startTime = now
-        }
-      }, 50)
+    // Internal: Update time precisely, chain 1s timeouts
+    updateTime() {
+      if (this.startTime !== null) {
+        const now = performance.now()
+        this.elapsedTime += now - this.startTime
+        this.startTime = now
+      }
+      if (this.isRunning) {
+        this.timeoutId = window.setTimeout(() => this.updateTime(), 750)
+      }
     },
 
-    // Pause the timer
+    /** Start or resume timer (adds pause delta first) */
+    start() {
+      if (this.isRunning) return
+      this.isRunning = true
+
+      // Add any pause delta on resume
+      if (this.startTime !== null) {
+        const now = performance.now()
+        this.elapsedTime += now - this.startTime
+      }
+      this.startTime = performance.now()
+      this.updateTime()
+    },
+
+    /** Pause and finalize elapsed time */
     pause() {
       if (!this.isRunning) return
-
       this.isRunning = false
 
-      // Calculate final elapsed time before pausing
       if (this.startTime !== null) {
-        const now = Date.now()
+        const now = performance.now()
         this.elapsedTime += now - this.startTime
         this.startTime = null
       }
-
       this.cleanup()
     },
 
-    // Reset the timer to zero
+    /** Reset to zero */
     reset() {
       this.pause()
       this.elapsedTime = 0
+      this.startTime = null
     },
 
-    // Clean up interval on store disposal
+    /** Clear timeout */
     cleanup() {
-      if (this.intervalId !== null) {
-        clearInterval(this.intervalId)
-        this.intervalId = null
+      if (this.timeoutId !== null) {
+        window.clearTimeout(this.timeoutId)
+        this.timeoutId = null
       }
     },
   },

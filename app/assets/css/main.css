@@ -10,39 +10,44 @@
   --ui-warning: var(--ui-color-warning-500);
   --ui-error: var(--ui-color-error-500);
 
-  --ui-text-dimmed: var(--ui-color-neutral-400);
-  --ui-text-muted: var(--ui-color-neutral-500);
-  --ui-text-toned: var(--ui-color-neutral-600);
-  --ui-text: var(--ui-color-neutral-700);
-  --ui-text-highlighted: var(--ui-color-neutral-900);
-  --ui-text-inverted: white;
-  
+  --ui-text: var(--foreground);
+  --ui-text-dimmed: oklch(from var(--ui-text) calc(l + 0.2) c h);
+  --ui-text-muted: oklch(from var(--ui-text) calc(l + 0.1) c h);
+  --ui-text-toned: oklch(from var(--ui-text) calc(l + 0.04) c h);
+  --ui-text-highlighted: oklch(from var(--ui-text) calc(l - 0.15) c h);
+  --ui-text-inverted: oklch(from var(--ui-text) calc(1 - l) c h);
+
   --ui-bg: oklch(0.9772 0.0132 102.01);
   --ui-bg-muted: var(--ui-color-neutral-50);
   --ui-bg-elevated: var(--ui-color-neutral-100);
   --ui-bg-accented: var(--ui-color-neutral-200);
   --ui-bg-inverted: var(--ui-color-neutral-900);
-  
+
   --ui-border: var(--ui-color-neutral-200);
   --ui-border-muted: var(--ui-color-neutral-200);
   --ui-border-accented: var(--ui-color-neutral-300);
-  --ui-border-inverted: var(--ui-color-neutral-900);
+  --ui-border-inverted: var(--ui-bg-inverted);
 
 
 
-    /* Discord Actvitiy safe area  */
-    --sait: var(--discord-safe-area-inset-top, env(safe-area-inset-top));
-    --saib: var(--discord-safe-area-inset-bottom, env(safe-area-inset-bottom));
-    --sail: var(--discord-safe-area-inset-left, env(safe-area-inset-left));
-    --sair: var(--discord-safe-area-inset-right, env(safe-area-inset-right));
+  /* Discord Actvitiy safe area  */
+  --sait: var(--discord-safe-area-inset-top, env(safe-area-inset-top));
+  --saib: var(--discord-safe-area-inset-bottom, env(safe-area-inset-bottom));
+  --sail: var(--discord-safe-area-inset-left, env(safe-area-inset-left));
+  --sair: var(--discord-safe-area-inset-right, env(safe-area-inset-right));
 
 }
+
+@theme {
+  --font-sans: "Switzer", sans-serif;
+}
+
 @layer base {
-    body {
-        /* Discord Safe area */
-        padding-left: var(--sail);
-        padding-right: var(--sair);
-        padding-top: var(--sait);
-        padding-bottom: var(--saib);
-    }
+  body {
+    /* Discord Safe area */
+    padding-left: var(--sail);
+    padding-right: var(--sair);
+    padding-top: var(--sait);
+    padding-bottom: var(--saib);
+  }
 }

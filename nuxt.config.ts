@@ -12,7 +12,7 @@ export default defineNuxtConfig({
     }
   },
   css: ['~/assets/css/main.css', '~/assets/css/elevated.css'],
-  modules: ['@pinia/nuxt', '@nuxt/eslint', '@nuxthub/core', '@nuxt/ui'],
+  modules: ['@pinia/nuxt', '@nuxt/eslint', '@nuxthub/core', '@nuxt/ui', '@nuxt/fonts'],
   typescript: {
     typeCheck: true,
   },
@@ -28,6 +28,16 @@ export default defineNuxtConfig({
     }
   },
   ui: {
-    colorMode: false
+    colorMode: false,
   },
+  fonts: {
+    families: [
+      {
+        name: "Switzer", provider: 'local',
+      },
+      {
+        name: "Alpino", provider: 'local'
+      }
+    ]
+  }
 })
