@@ -1,4 +1,6 @@
+import type { Difficulty } from "sudoku-gen/dist/types/difficulty.type";
 import type { Cell } from "../types/sudoku";
+import { getSudoku } from "sudoku-gen"
 
 export const TOTAL_CELLS = 81;
 export const GRID_SIZE = 9;
@@ -17,4 +19,8 @@ export function parsePuzzle(puzzle: string): Cell[] {
       error: false
     } as Cell
   })
+}
+
+export function generateRandomSudoku(difficulty: Difficulty) {
+  return getSudoku(difficulty);
 }

@@ -12,19 +12,20 @@ export default defineNuxtConfig({
     }
   },
   css: ['~/assets/css/main.css', '~/assets/css/elevated.css'],
-  modules: ['@pinia/nuxt', '@nuxt/eslint', '@nuxthub/core', '@nuxt/ui', '@nuxt/fonts'],
+  modules: [
+    '@pinia/nuxt',
+    '@nuxt/eslint',
+    // '@nuxthub/core',
+    '@nuxt/ui',
+    '@nuxt/fonts',
+    'nuxt-auth-utils'
+  ],
   typescript: {
     typeCheck: true,
   },
   vite: {
     server: {
       allowedHosts: ["nonillusional-unfederative-lonna.ngrok-free.dev"]
-    }
-  },
-  hub: {
-    db: {
-      dialect: "postgresql",
-      driver: "neon-http"
     }
   },
   ui: {

@@ -1,22 +1,17 @@
 <script setup lang="ts">
-import { getSudoku } from "sudoku-gen"
 definePageMeta({
   middleware: ['authenticated']
 })
 
-const { loadGame: load } = useGameStore();
+const { initDaily, isLoading } = useGameStore();
 
 // Load game on mount
 onMounted(async () => {
-  console.log('watchEffect')
-  const dailySudoku = getSudoku('easy')
-  load(dailySudoku)
-
+  await initDaily()
 })
 
 </script>
 <template>
-  <div>
-    <SudokuGame />
-  </div>
+  <SudokuGame v-if="isLoading" />
+  <p v-else>Ça arrive mdr</p>
 </template>

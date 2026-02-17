@@ -134,6 +134,19 @@ export const useGameStore = defineStore('gameStore', {
     }
   },
   actions: {
+    async initDaily() {
+      this.isLoading = true;
+      const { data } = await useFetch('/api/games/daily');
+
+      if (data.value) {
+        this.loadGame({
+          puzzle: data.value.daily.puzzle,
+        })
+      }
+
+      // TODO : include user progress
+      this.isLoading = false
+    },
     loadGame({ puzzle }: { puzzle: string }) {
       let grid = parsePuzzle(puzzle);
 

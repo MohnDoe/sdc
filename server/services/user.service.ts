@@ -1,11 +1,13 @@
 import 'dotenv/config';
 import { eq } from "drizzle-orm";
 import { v4 as uuid } from "uuid";
-import { schema, db } from "@nuxthub/db"
+
+import db from "#server/db";
+import * as schema from "#server/db/schema";
 
 
 export class UserService {
-  static async syncUser(user: Omit<DiscordAuth['user'], 'userId'>) {
+  static async syncUser(user: Omit<DiscordAuth['user'], 'userId'>): Promise<typeof schema.users.$inferInsert> {
     console.log("UserService sync")
     const existing = await db
       .select()
@@ -15,7 +17,7 @@ export class UserService {
 
     if (existing.length > 0) {
       console.log("User already exists;")
-      return existing[0]
+      return existing[0]!
     }
 
     console.log("User does not exist yet.")
@@ -31,6 +33,6 @@ export class UserService {
 
     console.log(`User ${newUser[0]!.id} created`)
 
-    return newUser[0];
+    return newUser[0]!;
   }
 }

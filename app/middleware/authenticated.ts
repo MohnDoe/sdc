@@ -1,9 +1,8 @@
 export default defineNuxtRouteMiddleware(() => {
-  useDiscordSDK();
-  const { isAuthenticated, status } = useDiscordStore();
+  const { loggedIn, user, ready } = useUserSession();
 
-  if (!isAuthenticated) {
-    if (status == 'authenticating') {
+  if (!loggedIn) {
+    if (!ready) {
       return abortNavigation()
     }
     return navigateTo('/')
