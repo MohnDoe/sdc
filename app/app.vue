@@ -16,21 +16,17 @@ watchEffect(async () => {
 
 <template>
   <UApp>
-    <UMain>
-      <NuxtLayout v-if="status == 'authenticated'">
-        <NuxtPage />
-      </NuxtLayout>
-      <div v-else>
-        <div class="
+    <NuxtLayout v-if="status == 'authenticated'">
+      <NuxtPage />
+    </NuxtLayout>
+    <div v-else class="
           loading-content /
           flex h-screen w-full flex-col gap-4 
           content-center justify-center text-center items-center
           ">
-          <UIcon class="spinner size-10 animate-spin" name="i-lucide-loader-circle" />
-          <span>Loading..</span>
-        </div>
-      </div>
-    </UMain>
+      <UIcon class="spinner size-10 animate-spin" name="i-lucide-loader-circle" />
+      <span>Loading..</span>
+    </div>
   </UApp>
 </template>
 

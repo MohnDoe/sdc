@@ -1,22 +1,18 @@
 :root {
+
+  --grid-elevation: 6px;
   --grid-border-color: var(--ui-text-toned);
   --grid-border-radius: 8px;
   --grid-border-thickness: 4px;
   --grid-background-color: var(--ui-bg-accented);
   --grid-padding: 4px;
 
-  --region-border-color: var(--grid-background-color);
-  --region-border-thickness: 4px;
+  --region-gap: 4px;
 
-  --cell-border-color: var(--region-border-color);
-  --cell-border-thickness: 1px;
-  --cell-border-radius: 4px;
+  --cell-border-radius: 8px;
+  --cell-gap: 2px;
 
   --cell-background-color: white;
-
-  --cell-size-mobile: 40px;
-  --cell-size-tablet: 40px;
-  --cell-size-desktop: 48px;
 
   --cell-selected-background: var(--ui-primary);
   --cell-given-background: oklch(from var(--cell-selected-background) calc(l + 1) calc(c - 0.1) h);
@@ -25,5 +21,21 @@
   --cell-highlight-background: oklch(from var(--cell-selected-background) l c h / 7%);
 
   /* --cell-error-background: var(--ui-error); */
-  --cell-error-foreground: var(--ui-error)
+  --cell-error-foreground: var(--ui-error);
+}
+
+@media (min-width:48rem) {
+
+  /* md */
+  :root {
+    --grid-border-thickness: 6px;
+    --grid-padding: 8px;
+    --grid-elevation: 10px;
+    --grid-border-radius: 16px;
+
+    --region-gap: 8px;
+
+    --cell-border-radius: 10px;
+    --cell-gap: 4px;
+  }
 }

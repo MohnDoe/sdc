@@ -45,7 +45,10 @@ const cellClasses = reactive({
 </script>
 
 <template>
-  <div class="sudoku-cell text-xl aspect-square" :class="cellClasses" role="button" @click="$emit('cellClicked')">
+  <div class="
+    sudoku-cell
+    text-xl
+    aspect-square" :class="cellClasses" role="button" @click="$emit('cellClicked')">
     <span v-if="cell.value !== null" :class="[cell.given ? 'font-bold' : 'font-normal']">
       {{ cell.value }}
     </span>
@@ -60,24 +63,12 @@ const cellClasses = reactive({
   display: flex;
   align-items: center;
   justify-content: center;
-  border: var(--cell-border-thickness) solid var(--cell-border-color);
   cursor: pointer;
   position: relative;
   background-color: var(--cell-background-color);
   box-sizing: border-box;
   font-family: "Switzer", sans-serif;
   font-variant-numeric: tabular-nums;
-}
-
-/* Thicker right border for 3x3 regions */
-.sudoku-cell:nth-child(3n):not(:nth-child(9n)) {
-  border-right: var(--region-border-thickness) solid var(--region-border-color);
-}
-
-/* Thicker bottom border for 3x3 regions */
-.sudoku-cell:nth-child(n + 19):nth-child(-n + 27),
-.sudoku-cell:nth-child(n + 46):nth-child(-n + 54) {
-  border-bottom: var(--region-border-thickness) solid var(--region-border-color);
 }
 
 /* Cell States */

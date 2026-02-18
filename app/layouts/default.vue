@@ -1,5 +1,5 @@
 <template>
-  <div class="app">
+  <div class="app h-screen">
     <slot />
   </div>
 </template>
