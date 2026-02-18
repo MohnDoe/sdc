@@ -16,6 +16,15 @@ export default defineAppConfig({
       defaultVariants: {
         variant: 'solid'
       }
+    },
+    modal: {
+      variants: {
+        overlay: {
+          true: {
+            overlay: 'backdrop-blur-xs bg-inverted/75'
+          }
+        }
+      }
     }
   }
 })

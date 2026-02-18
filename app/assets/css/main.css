@@ -21,7 +21,7 @@
   --ui-bg-muted: var(--ui-color-neutral-50);
   --ui-bg-elevated: var(--ui-color-neutral-100);
   --ui-bg-accented: oklch(from var(--ui-bg) calc(l * 0.95) c h);
-  --ui-bg-inverted: var(--ui-color-neutral-900);
+  --ui-bg-inverted: var(--foreground);
 
   --ui-border: var(--ui-bg-accented);
   --ui-border-muted: var(--ui-color-neutral-200);
