@@ -22,7 +22,8 @@ interface GameState {
   isLoading: boolean,
   isSaving: boolean,
   isCompleted: boolean,
-  isPaused: boolean
+  isPaused: boolean,
+  isVerifying: boolean,
 }
 
 function removeNote(notes: number[], note: number) {
@@ -61,6 +62,7 @@ export const useGameStore = defineStore('gameStore', {
       isCompleted: false,
       isLoading: true,
       isPaused: false,
+      isVerifying: false,
     }
   },
   getters: {
@@ -88,6 +90,9 @@ export const useGameStore = defineStore('gameStore', {
             return Math.max(0, remaining);
           }, GRID_SIZE)
 
+    },
+    isFilled: (state): boolean => {
+      return state.grid.every((cell) => cell.value != null);
     },
     cellConflicts: (state: GameState) => {
       // TODO : fix conflicts for "given" cells
@@ -149,6 +154,21 @@ export const useGameStore = defineStore('gameStore', {
       }
 
       this.isLoading = false
+    },
+    async verifyBoard() {
+      if (this.isVerifying) return;
+      this.isVerifying = true;
+      try {
+        const result = await $fetch('/api/games/verify', {
+          method: "POST",
+          body: {
+            board: this.grid.map((cell) => cell.value).join(''),
+            puzzleId: this.puzzleId
+          }
+        })
+      } finally {
+        this.isVerifying = false
+      }
     },
     loadGame({ puzzle, puzzleId, progress }: { puzzle: string, puzzleId: string, progress?: GameProgress }) {
       let grid = parsePuzzle(puzzle);
@@ -237,6 +257,7 @@ export const useGameStore = defineStore('gameStore', {
       if (index < 0 || index >= TOTAL_CELLS) return;
       if (this.grid[index]!.given) return;
 
+      const oldValue = this.grid[index]!.value
       const newCell: Cell = {
         ...this.grid[index]!,
         notes: [],
@@ -247,12 +268,19 @@ export const useGameStore = defineStore('gameStore', {
 
       this.grid[index] = newCell;
 
-      if (value !== null) {
+      if (value !== null && value !== oldValue) {
+        if (this.isFilled) {
+          this.verifyBoard()
+          return;
+        }
+
         const row = Math.floor(index / GRID_SIZE);
         const col = index % GRID_SIZE;
         this.clearColOfNote(col, value, index)
         this.clearRowOfNote(row, value, index);
         this.clearRegionOfNote({ col, row }, value, index)
+
+
       }
 
       // TODO: update conflicts

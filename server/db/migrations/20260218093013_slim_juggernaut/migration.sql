@@ -1,0 +1,2 @@
+ALTER TABLE "daily_puzzles" ALTER COLUMN "puzzle" SET DATA TYPE varchar(81) USING "puzzle"::varchar(81);--> statement-breakpoint
+ALTER TABLE "daily_puzzles" ALTER COLUMN "solution" SET DATA TYPE varchar(81) USING "solution"::varchar(81);

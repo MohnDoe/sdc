@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm/_relations";
-import { boolean, integer, jsonb, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
+import { boolean, integer, jsonb, pgTable, text, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
 
 export const users = pgTable("users", {
   id: uuid('id').defaultRandom().primaryKey(),
@@ -12,8 +12,8 @@ export const users = pgTable("users", {
 export const dailyPuzzles = pgTable('daily_puzzles', {
   id: uuid('id').defaultRandom().primaryKey(),
   date: text('date').notNull().unique(), // Format: YYYY-MM-DD
-  puzzle: jsonb('puzzle').notNull(), // Sudoku grid as JSON
-  solution: jsonb('solution').notNull(), // Solution grid as JSON
+  puzzle: varchar({ length: 81 }).notNull(), // Sudoku grid as JSON
+  solution: varchar({ length: 81 }).notNull(), // Solution grid as JSON
   difficulty: text('difficulty').notNull(), // easy, medium, hard
   seed: text('seed').notNull(), // Random seed for generation
   createdAt: timestamp('created_at').defaultNow(),

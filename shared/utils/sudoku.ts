@@ -24,3 +24,7 @@ export function parsePuzzle(puzzle: string): Cell[] {
 export function generateRandomSudoku(difficulty: Difficulty) {
   return getSudoku(difficulty);
 }
+
+export function checkPuzzleAgainstSolution(puzzle: string, solution: string) {
+  return puzzle == solution;
+}

@@ -48,6 +48,16 @@ export class GameService {
     }
   }
 
+  static async getPuzzle(puzzleId: string) {
+    const result = await db
+      .select()
+      .from(schema.dailyPuzzles)
+      .where(eq(schema.dailyPuzzles.id, puzzleId))
+      .limit(1)
+
+    return result[0] ? result[0] : null
+  }
+
   static async getUserProgress(userId: string, puzzleId: string): Promise<typeof schema.gameProgress.$inferSelect | null> {
     try {
       const progress = await db
