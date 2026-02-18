@@ -31,8 +31,6 @@ const relativeMove = (arrow: string) => {
 }
 
 const onKeyDown = (e: KeyboardEvent) => {
-  console.log(`Key pressed on ${selectedIndex} : ${e.key}`)
-
   if (e.key === 'e') {
     toggleNotesMode();
     e.preventDefault();
