@@ -9,8 +9,8 @@
   --elevation: 8px;
   --elevation-xs: 4px;
 
-  --hover-y-offset: 4px;
-  --hover-y-offset-xs: 2px;
+  --hover-y-offset: -2px;
+  --hover-y-offset-xs: -1px;
 
   --pressed-y-offset: var(--elevation);
   --pressed-y-offset-xs: var(--elevation-xs);
@@ -18,8 +18,9 @@
 }
 
 .elevated {
+  cursor: pointer;
   border-radius: var(--border-radius);
-  transition: 120ms;
+  transition: 250ms;
   transition-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
   box-shadow: 0 var(--elevation) 0 var(--border-width) var(--box-shadow-color), 0 0 0 var(--border-width) var(--box-shadow-color);
 }
@@ -38,18 +39,10 @@
   box-shadow: 0 calc(var(--elevation) - var(--pressed-y-offset)) 0 var(--border-width) var(--box-shadow-color), 0 0 0 var(--border-width) var(--box-shadow-color);
 }
 
-
 .elevated--xs {
-  border-radius: var(--border-radius-xs);
-  box-shadow: 0 var(--elevation-xs) 0 var(--border-width-xs) var(--box-shadow-color), 0 0 0 var(--border-width-xs) var(--box-shadow-color);
-}
-
-.elevated--xs:hover {
-  transform: translateY(var(--hover-y-offset-xs));
-  box-shadow: 0 calc(var(--elevation-xs) - var(--hover-y-offset-xs)) 0 var(--border-width-xs) var(--box-shadow-color), 0 0 0 var(--border-width-xs) var(--box-shadow-color);
-}
-
-.elevated--xs:active {
-  transform: translateY(var(--pressed-y-offset-xs));
-  box-shadow: 0 calc(var(--elevation-xs) - var(--pressed-y-offset-xs)) 0 var(--border-width-xs) var(--box-shadow-color), 0 0 0 var(--border-width-xs) var(--box-shadow-color);
+  --border-radius: var(--border-radius-xs);
+  --elevation: var(--elevation-xs);
+  --border-width: var(--border-width-xs);
+  --hover-y-offset: var(--hover-y-offset-xs);
+  --pressed-y-offset: var(--pressed-y-offset-xs);
 }

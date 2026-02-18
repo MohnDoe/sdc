@@ -1,7 +1,7 @@
 import { includes } from "zod/v4";
 import type { PostProgressBody } from "~~/server/api/games/progress.post";
 
-export function useGameSync(saveIntervalMs: number = 3_000) {
+export function useGameSync(saveIntervalMs: number = 10_000) {
   const gameStore = useGameStore();
   const { puzzleId } = storeToRefs(gameStore);
   const { loggedIn, user } = useUserSession();
