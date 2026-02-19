@@ -18,7 +18,7 @@ const infos = computed(() => ([
 <template>
   <UModal :dismissible="false" :open="isPaused" :close="false">
     <template #body>
-      <div class="flex flex-col justify-center items-center gap-10 py-4 md:gap-5">
+      <div class="flex flex-col justify-center items-center gap-10 pb-4 md:gap-5">
         <h2 class="text-3xl font-medium">Pause</h2>
         <div class="flex flex-row gap-10 justify-around w-full md:justify-center md:gap-10">
           <div v-for="info in infos" class="flex flex-col items-center gap-0">
