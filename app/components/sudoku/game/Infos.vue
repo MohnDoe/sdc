@@ -10,11 +10,16 @@ const gameStore = useGameStore();
         <span class="text-xs">{{ gameStore.formattedTimeSpent }}</span>
       </div>
       <div class="flex flex-col">
+        <span>Mistakes</span>
+        <span>{{ gameStore.mistakes }}</span>
+      </div>
+      <div class="flex flex-col">
         <span>Difficulty</span>
         <span>{{ gameStore.difficulty }}</span>
       </div>
     </div>
-    <UButton size="lg" @click="gameStore.isPaused ? gameStore.unpauseGame() : gameStore.pauseGame()">
+    <UButton size="lg" @click="gameStore.isPaused ? gameStore.unpauseGame() : gameStore.pauseGame()"
+      :disabled="gameStore.isCompleted">
       <UIcon :name="gameStore.isPaused ? 'i-lucide-play' : 'i-lucide-pause'" />
     </UButton>
   </div>

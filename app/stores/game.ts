@@ -238,6 +238,7 @@ export const useGameStore = defineStore('gameStore', {
     },
     // Resume the game
     unpauseGame() {
+      if (this.isCompleted) return;
       this.isPaused = false
 
       // Resume timer

@@ -9,6 +9,10 @@ const infos = computed(() => ([
     value: gameStore.formattedTimeSpent,
   },
   {
+    title: "Mistakes",
+    value: gameStore.mistakes,
+  },
+  {
     title: "Difficulty",
     value: gameStore.difficulty
   }
