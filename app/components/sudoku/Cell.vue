@@ -101,10 +101,10 @@ const cellClasses = computed(() => ({
 .sudoku-cell--error::after {
   position: absolute;
   content: ' ';
-  height: 4px;
-  width: 4px;
+  height: 8px;
+  width: 8px;
   border-radius: 4px;
-  top: 4px;
+  bottom: 4px;
   right: 4px;
   background-color: var(--ui-error);
 }

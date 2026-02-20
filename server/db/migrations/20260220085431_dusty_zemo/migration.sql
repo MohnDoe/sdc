@@ -1,0 +1,1 @@
+ALTER TABLE "game_progress" ADD COLUMN "mistakes" integer DEFAULT 0 NOT NULL;

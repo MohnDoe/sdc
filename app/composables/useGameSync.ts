@@ -29,6 +29,7 @@ export function useGameSync(saveIntervalMs: number = 10_000) {
           hints: gameStore.hints,
           userId: user.value!.id,
           moves: gameStore.moves,
+          mistakes: gameStore.mistakes,
           timeSpent: Math.floor(trueTimeMs / 1000),
           isCompleted: false // TODO: 
         } satisfies PostProgressBody

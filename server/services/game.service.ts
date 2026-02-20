@@ -71,7 +71,8 @@ export class GameService {
 
       return progress.length > 0 ? progress[0]! : null
     } catch (error) {
-      throw new Error("Failed to get user progress", error as DrizzleError);
+      console.error('getUserProgress error', error)
+      throw new Error("Failed to get user progress");
     }
   }
 

@@ -16,6 +16,7 @@ interface GameState {
   moves: number,
   timeSpent: number,
   hints: number,
+  mistakes: number,
 
   status: "ongoing" | "completed" | "failed",
 
@@ -51,6 +52,7 @@ export const useGameStore = defineStore('gameStore', {
       difficulty: "easy",
       hints: 0,
       moves: 0,
+      mistakes: 0,
       puzzle: null,
       puzzleDate: null,
       puzzleId: null,
@@ -178,6 +180,7 @@ export const useGameStore = defineStore('gameStore', {
       this.grid = grid;
       this.hints = 0
       this.moves = 0
+      this.mistakes = 0;
       this.status = 'ongoing'
       this.isCompleted = false
       this.isPaused = false
@@ -192,6 +195,10 @@ export const useGameStore = defineStore('gameStore', {
     },
     loadProgress(savedState: GameProgress) {
       this.grid = savedState.currentState
+      this.mistakes = savedState.mistakes;
+      this.hints = savedState.hints;
+      this.moves = savedState.moves;
+
 
       // Load the saved time into timer and start it
       const timerStore = useGameTimerStore()
@@ -270,6 +277,13 @@ export const useGameStore = defineStore('gameStore', {
       this.grid[index] = newCell;
 
       if (value !== null && value !== oldValue) {
+
+        const conflicts = this.cellConflicts(index);
+
+        if (conflicts.length > 0) {
+          this.mistakes++
+        }
+
         if (this.isFilled) {
           this.verifyBoard()
           return;
@@ -280,8 +294,6 @@ export const useGameStore = defineStore('gameStore', {
         this.clearColOfNote(col, value, index)
         this.clearRowOfNote(row, value, index);
         this.clearRegionOfNote({ col, row }, value, index)
-
-
       }
 
       // TODO: update conflicts
