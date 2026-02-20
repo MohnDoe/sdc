@@ -12,8 +12,8 @@ const infos = computed(() => ([
     value: gameStore.mistakes,
   },
   {
-    title: "Moves",
-    value: gameStore.moves,
+    title: "Notes",
+    value: gameStore.notes,
   },
   {
     title: "Difficulty",

@@ -15,6 +15,7 @@ interface GameState {
   notesMode: boolean,
 
   moves: number,
+  notes: number,
   timeSpent: number,
   hints: number,
   mistakes: number,
@@ -55,6 +56,7 @@ export const useGameStore = defineStore('gameStore', {
       difficulty: "easy",
       hints: 0,
       moves: 0,
+      notes: 0,
       mistakes: 0,
       puzzle: null,
       puzzleDate: null,
@@ -221,12 +223,14 @@ export const useGameStore = defineStore('gameStore', {
       this.mistakes = savedState.mistakes;
       this.hints = savedState.hints;
       this.moves = savedState.moves;
+      this.notes = savedState.notes;
 
-
-      // Load the saved time into timer and start it
+      this.isCompleted = savedState.isCompleted;
       const timerStore = useGameTimerStore()
       timerStore.elapsedTime = (savedState.timeSpent || 0) * 1000
-      timerStore.start()
+      if (!this.isCompleted) {
+        this.unpauseGame()
+      }
     },
 
     pauseGame() {
@@ -268,6 +272,7 @@ export const useGameStore = defineStore('gameStore', {
       if (notes.includes(note)) {
         notes = removeNote(notes, note)
       } else {
+        this.notes++;
         notes = addNote(notes, note)
       }
 
@@ -301,7 +306,7 @@ export const useGameStore = defineStore('gameStore', {
       this.grid[index] = newCell;
 
       if (value !== null && value !== oldValue) {
-
+        this.moves++;
         const conflicts = this.cellConflicts(index);
 
         if (conflicts.length > 0) {
