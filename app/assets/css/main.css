@@ -3,7 +3,7 @@
 
 :root {
   --foreground: oklch(0.2038 0.0067 258.37);
-  --ui-primary: oklch(0.8907 0.1833 96.19);
+  --ui-primary: #FFD900;
   --ui-secondary: #f97276;
   --ui-success: var(--ui-color-success-500);
   --ui-info: var(--ui-color-info-500);
@@ -18,10 +18,10 @@
   --ui-text-inverted: var(--foreground);
 
 
-  --ui-bg: oklch(0.9772 0.0132 102.01);
-  --ui-bg-muted: var(--ui-color-neutral-50);
-  --ui-bg-elevated: var(--ui-color-neutral-100);
-  --ui-bg-accented: oklch(from var(--ui-bg) calc(l * 0.95) c h);
+  --ui-bg: oklch(0.9888 0.0225 98.63);
+  --ui-bg-muted: oklch(0.9888 0.02 98.63);
+  --ui-bg-elevated: oklch(0.9556 0.088157 98.7647);
+  --ui-bg-accented: oklch(0.9556 0.03 98.7647);
   --ui-bg-inverted: var(--foreground);
 
   --ui-border: var(--ui-bg-accented);
