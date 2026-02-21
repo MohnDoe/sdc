@@ -30,11 +30,11 @@ const notesItems = computed<NoteItem[]>(() => {
 
 </script>
 <template>
-  <div class="grid grid-cols-3 grid-rows-3 w-full h-full">
+  <div class="grid grid-cols-3 grid-rows-3 w-full h-full p-0.5">
     <span v-for="item in notesItems" :key="`note-${item.num}`" :style="{
       gridColumn: item.col, gridRow: item.row
     }" :class="[
-      'flex items-center justify-center text-xs',
+      'flex items-center justify-center text-muted text-[10px] md:text-xs',
       { 'text-primary font-bold': item.highlighted }
     ]">
       {{ item.num }}
