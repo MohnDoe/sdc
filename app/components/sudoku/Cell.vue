@@ -101,12 +101,12 @@ const cellClasses = computed(() => ({
 .sudoku-cell--error::after {
   position: absolute;
   content: ' ';
-  border: 4px solid var(--ui-error);
-  border-radius: 8px;
+  height: 8px;
+  width: 8px;
+  border-radius: 4px;
   bottom: 4px;
   right: 4px;
-  left: 4px;
-  top: 4px;
+  background-color: var(--ui-error);
 }
 
 .sudoku-cell--selected {
@@ -119,12 +119,7 @@ const cellClasses = computed(() => ({
 }
 
 .sudoku-cell--error.sudoku-cell--selected::after {
-  border-color: white;
-  left: unset;
-  top: unset;
-  right: 4px;
-  bottom: 4px;
-  border-width: 4px;
+  background-color: white;
 }
 
 .sudoku-cell--filled:not(.sudoku-cell--given) {
