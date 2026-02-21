@@ -8,7 +8,7 @@
     md:w-full
     md:min-w-2md
     md:max-w-7xl">
-    <SudokuGameInfos />
+    <SudokuGameHeader />
     <div class=" 
     flex flex-col items-center justify-center
     grow
@@ -24,13 +24,20 @@
       flex flex-col
       w-full
       h-fit
+
+        gap-4
+
       md:pb-8
       md:w-auto
       md:h-full
       ">
+        <SudokuGameInfos class="md:hidden" />
         <SudokuBoard />
       </div>
-      <SudokuGameButtons class="w-full max-w-md shrink md:max-w-xs md:self-auto" />
+      <div class="w-full max-w-md shrink md:max-w-xs md:self-auto flex flex-col gap-4">
+        <SudokuGameInfos class="hidden md:flex" />
+        <SudokuGameButtons />
+      </div>
     </div>
   </div>
 </template>
