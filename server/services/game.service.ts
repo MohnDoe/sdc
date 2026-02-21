@@ -48,6 +48,37 @@ export class GameService {
     }
   }
 
+  static async getDailies(userId?: string) {
+    let req = db
+      .select({
+        puzzle: {
+          id: schema.dailyPuzzles.id,
+          date: schema.dailyPuzzles.date,
+          difficulty: schema.dailyPuzzles.difficulty,
+        },
+        ...userId ? {
+          progress: {
+            moves: schema.gameProgress.moves,
+            isCompleted: schema.gameProgress.isCompleted,
+            timeSpent: schema.gameProgress.timeSpent,
+          }
+        } : {}
+      })
+      .from(schema.dailyPuzzles)
+
+      .orderBy(schema.dailyPuzzles.date)
+      .limit(30)
+      .$dynamic();
+
+    if (userId) {
+      req
+        .leftJoin(schema.gameProgress, eq(schema.gameProgress.puzzleId, schema.dailyPuzzles.id))
+        .where(eq(schema.gameProgress.userId, userId))
+    }
+
+    return req
+  }
+
   static async getPuzzle(puzzleId: string) {
     const result = await db
       .select()

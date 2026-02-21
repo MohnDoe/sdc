@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { v4 as uuid } from "uuid";
 
 import db from "#server/db";
