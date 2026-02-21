@@ -1,4 +1,5 @@
 import type { DiscordAPIToken } from "~~/server/services/auth/discord/discord.auth.service";
+import { userGuildMemberships } from "~~/server/db/schema";
 
 declare module '#auth-utils' {
   interface User {
@@ -7,7 +8,8 @@ declare module '#auth-utils' {
       id: string;
       username: string;
       globalName: string | null;
-      discriminator: string
+      discriminator: string;
+      guildMembership: typeof userGuildMemberships.$inferSelect | null
     }
   }
 

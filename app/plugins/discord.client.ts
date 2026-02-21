@@ -38,7 +38,7 @@ export default defineNuxtPlugin(async () => {
         '/api/auth/discord/token',
         {
           method: 'POST',
-          body: { code },
+          body: { code, guildId: discordSdk.guildId, channelId: discordSdk.channelId },
         }
       )
 

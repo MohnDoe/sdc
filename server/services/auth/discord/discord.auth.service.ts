@@ -1,4 +1,4 @@
-import { DiscordAPIToken, DiscordAPIUser } from "~~/shared/types/discord";
+import type { DiscordTypes, DiscordAPIToken, DiscordAPIUser } from "~~/shared/types/discord";
 
 const DISCORD_API = 'https://discord.com/api/v10';
 
@@ -45,6 +45,21 @@ export async function fetchDiscordUser(accessToken: string): Promise<DiscordAPIU
   }
 
   return userResponse.json() as Promise<DiscordAPIUser>;
+}
+
+
+export async function fetchDiscordGuildMember(accessToken: string, guildId: string) {
+  const guildMember = await fetch(`${DISCORD_API}/user/@me/guilds/${guildId}/member`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  })
+
+  if (!guildMember.ok) {
+    throw new Error('Failed to fetch Discord guild member info');
+  }
+
+  return guildMember.json() as Promise<DiscordTypes.GuildMember>;
 }
 
 /**

@@ -42,3 +42,15 @@ export const users = pgTable("users", {
   updatedAt: timestamp("updated_at").defaultNow().$onUpdate(() => new Date()),
 }, (table) => [
   unique("users_discord_id_key").on(table.discordId),]);
+
+
+export const userGuildMemberships = pgTable('user_guild_memberships', {
+  userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  guildId: text("guild_id").notNull(),
+  discordId: text("discord_id").notNull(),
+  discordUsername: text("discord_username").notNull(),
+  discordDiscriminator: text("discord_discriminator").notNull(),
+  discordGlobalUsername: text("discord_global_username"),
+}, (table) => [
+  primaryKey({ columns: [table.userId, table.guildId] })
+])

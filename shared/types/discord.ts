@@ -1,3 +1,5 @@
+export type { Types as DiscordTypes } from "@discord/embedded-app-sdk";
+
 export interface DiscordTokenResponse {
   access_token: string;
   refresh_token: string;
