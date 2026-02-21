@@ -7,8 +7,7 @@
     gap-4
     md:w-full
     md:min-w-2md
-    md:max-w-7xl
-    ">
+    md:max-w-7xl">
     <SudokuGameInfos />
     <div class=" 
     flex flex-col items-center justify-center

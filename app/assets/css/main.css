@@ -51,4 +51,11 @@
     padding-top: var(--sait);
     padding-bottom: var(--saib);
   }
+
+
+
+}
+
+.font-outfit {
+  font-family: "Outfit", sans-serif;
 }
