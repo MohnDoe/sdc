@@ -11,10 +11,10 @@ const done = computed(() => remainingCount.value(num) <= 0);
 
 <template>
   <UButton class="relative flex flex-col cursor-pointer bg-white items-center  elevated--xs" variant="elevated"
-    color="neutral" size="xs" @click="done ? null : insertNumber(num)">
+    :disabled="done" color="neutral" size="xs" @click="done ? null : insertNumber(num)">
     <div class="h-10 flex items-center">
-      <UIcon v-if="done" name="i-lucide-check" class="stroke-green-900" />
-      <span v-if="!done" class="text-xl">{{ num }}</span>
+      <UIcon v-if="done" name="i-lucide-check" class="size-5" />
+      <span v-if="!done" class="text-2xl font-outfit">{{ num }}</span>
     </div>
     <div v-if="!done" class="
       absolute

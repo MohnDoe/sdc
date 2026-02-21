@@ -1,26 +1,22 @@
 <script setup lang="ts">
 const gameStore = useGameStore();
-
+const infos = computed(() => ([
+  {
+    value: gameStore.formattedTimeSpent,
+  },
+  {
+    title: "mistakes",
+    value: gameStore.mistakes,
+  },
+  {
+    value: gameStore.difficulty
+  }
+]))
 </script>
 <template>
-  <div class="flex flex-row ww-full gap-4 items-center p-4">
-    <div class="flex flex-row grow justify-between">
-      <div class="flex flex-col">
-        <span>Time</span>
-        <span class="text-xs">{{ gameStore.formattedTimeSpent }}</span>
-      </div>
-      <div class="flex flex-col">
-        <span>Mistakes</span>
-        <span>{{ gameStore.mistakes }}</span>
-      </div>
-      <div class="flex flex-col">
-        <span>Difficulty</span>
-        <span>{{ gameStore.difficulty }}</span>
-      </div>
-    </div>
-    <UButton size="lg" @click="gameStore.isPaused ? gameStore.unpauseGame() : gameStore.pauseGame()"
-      :disabled="gameStore.isCompleted">
-      <UIcon :name="gameStore.isPaused ? 'i-lucide-play' : 'i-lucide-pause'" />
-    </UButton>
+  <div class="flex flex-row md:gap-4 justify-between md:bg-accented md:p-4 md:pb-5 rounded md:rounded-lg ">
+    <UBadge v-for="info in infos" class="font-bold elevated elevated--xs bg-elevated text-sm capitalize">
+      {{ info.value }} {{ info.title }}
+    </UBadge>
   </div>
 </template>

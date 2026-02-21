@@ -36,10 +36,13 @@ const reset = () => {
             <span class="text-2xl font-medium capitalize">{{ info.value }}</span>
           </div>
         </div>
-        <div class="flex flex-col gap-8">
-          <UButton variant="elevated" size="xl" @click="gameStore.unpauseGame">Resume game</UButton>
-          <UButton variant="ghost" size="xl" @click="reset" class="justify-center cursor-pointer" color="neutral">
-            Reset grid
+        <div class="flex flex-col gap-6">
+          <UButton variant="elevated" size="xl" @click="gameStore.unpauseGame">
+            <UIcon name="i-lucide-play" />
+            Resume game
+          </UButton>
+          <UButton variant="soft" size="xl" @click="reset" class="justify-center cursor-pointer" color="neutral">
+            Reset
           </UButton>
         </div>
       </div>

@@ -49,6 +49,7 @@ const cellClasses = computed(() => ({
   <div class="
     sudoku-cell
     text-xl
+    lg:text-2xl
     aspect-square" :class="cellClasses" role="button" @click="$emit('cellClicked')">
     <span v-if="cell.value !== null" :class="[cell.given ? 'font-bold' : 'font-normal']">
       {{ cell.value }}

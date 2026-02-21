@@ -1,26 +1,43 @@
 <template>
   <SudokuPauseModal />
   <SudokuVictoryModal />
-  <UContainer class="
-    h-full w-full max-w-md
-    
-    flex flex-col items-center justify-center
+  <div class="
+    h-screen w-full max-w-md
+    flex flex-col
     gap-4
+    md:w-full
+    md:min-w-2md
+    md:max-w-7xl">
+    <SudokuGameHeader />
+    <div class=" 
+    flex flex-col items-center justify-center
+    grow
+    gap-8
 
     sm:gap-8
     sm:max-w-lg
 
     md:max-w-7xl
-    md:flex-row    ">
-    <div class="
-      w-full
-      md:min-w-md
-      md:max-w-2xl
-      flex flex-col
+    md:flex-row md:items-start
       ">
-      <SudokuGameInfos />
-      <SudokuBoard />
+      <div class="
+      flex flex-col
+      w-full
+      h-fit
+
+        gap-4
+
+      md:pb-8
+      md:w-auto
+      md:h-full
+      ">
+        <SudokuGameInfos class="md:hidden" />
+        <SudokuBoard />
+      </div>
+      <div class="w-full max-w-md shrink md:max-w-xs md:self-auto flex flex-col gap-4">
+        <SudokuGameInfos class="hidden md:flex" />
+        <SudokuGameButtons />
+      </div>
     </div>
-    <SudokuGameButtons class="w-full  max-w-md shrink md:max-w-xs" />
-  </UContainer>
+  </div>
 </template>

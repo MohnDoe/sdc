@@ -52,6 +52,9 @@ export default defineNuxtConfig({
       },
       {
         name: "Alpino", provider: 'local'
+      },
+      {
+        name: "Outfit", provider: "google", weights: [500, 700, 900]
       }
     ]
   },
